@@ -10,14 +10,14 @@ class Playlist {
     let name: String
     let author: String
     var songs: [Song]
-    var currentlyPlaying: Int?
+    var currentIndex: Int?
     
     // Init
     init(name: String, author: String, songs: [Song], currentlyPlaying: Song?) {
         self.name = name
         self.author = author
         self.songs = []
-        self.currentlyPlaying = nil
+        self.currentIndex = nil
     }
     
     // Core mutation
@@ -36,7 +36,8 @@ class Playlist {
     // Querying / reading
     var count: Int { get { songs.count } }
     
-    func allSongs(){
+    func printAllSongs(){
+        print("🎶Printing all songs ")
         for song in songs {
             print("\(song.name), \(song.artist): \(song.duration) minutes")
         }
@@ -52,9 +53,9 @@ class Playlist {
     }
     
     func currentSong() -> Song? {
-        if currentlyPlaying != nil {
-            print("Currently playing \(songs[currentlyPlaying!].name) by \(songs[currentlyPlaying!].artist)")
-            return songs[currentlyPlaying!]
+        if currentIndex != nil {
+            print("Currently playing \(songs[currentIndex!].name) by \(songs[currentIndex!].artist)")
+            return songs[currentIndex!]
         } else {
             return nil
         }
@@ -62,27 +63,43 @@ class Playlist {
 
     // Playback navigation
     func play(at index: Int) -> Song? {
-        currentlyPlaying = index
+        currentIndex = index
         print("Now playing \(songs[index].name) by \(songs[index].artist)")
         return songs[index]
     }
     
     func playNext() -> Song? {
-        if currentlyPlaying != nil {
-            currentlyPlaying! += 1
-            print("Now playing \(songs[currentlyPlaying!].name) by \(songs[currentlyPlaying!].artist)")
-            return songs[currentlyPlaying!]
+        if currentIndex != nil {
+            currentIndex! += 1
+            let isValid = currentIndex! <= songs.count - 1
+            if isValid {
+                play(at: currentIndex!)
+                return songs[currentIndex!]
+            } else {
+                currentIndex = 0
+                play(at: currentIndex!)
+                return songs[currentIndex!]
+            }
         } else {
+            print("No song currently playing")
             return nil
         }
     }
 
     func playPrevious() -> Song? {
-        if currentlyPlaying != nil {
-            currentlyPlaying! -= 1
-            print("Now playing \(songs[currentlyPlaying!].name) by \(songs[currentlyPlaying!].artist)")
-            return songs[currentlyPlaying!]
+        if currentIndex != nil {
+            currentIndex! -= 1
+            let isValid = currentIndex! >= 0
+            if isValid {
+                play(at: currentIndex!)
+                return songs[currentIndex!]
+            } else {
+                currentIndex = songs.count - 1
+                play(at: currentIndex!)
+                return songs[currentIndex!]
+            }
         } else {
+            print("No song currently playing")
             return nil
         }
     }
@@ -120,17 +137,17 @@ var s5 = Song(name: "London Roads", artist: "Lil Wayne", duration: 4)
 
 var myPlaylist = Playlist(name: "Big steppas playlist", author: "Andrew", songs: [], currentlyPlaying: nil)
 
-myPlaylist.songs.append(s1)
-myPlaylist.songs.append(s2)
-myPlaylist.songs.append(s3)
-myPlaylist.songs.append(s4)
-myPlaylist.songs.append(s5)
-
-myPlaylist.allSongs()
+myPlaylist.add(s1)
+myPlaylist.add(s2)
+myPlaylist.add(s3)
+myPlaylist.add(s4)
+myPlaylist.add(s5)
+myPlaylist.printAllSongs()
 print("--")
-myPlaylist.moveSong(song: s2, to: 4)
-myPlaylist.allSongs()
+myPlaylist.play(at: 0)
 print("--")
-myPlaylist.play(at: 1)
-myPlaylist.currentSong()
-myPlaylist.totalDuration()
+myPlaylist.playPrevious()
+print("--")
+myPlaylist.printAllSongs()
+print("--")
+myPlaylist.playNext()
