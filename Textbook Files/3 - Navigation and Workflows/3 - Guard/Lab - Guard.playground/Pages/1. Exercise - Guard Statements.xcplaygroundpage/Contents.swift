@@ -14,7 +14,7 @@ func calculateArea(x: Double, y: Double) -> Double? {
 
 //:  Create a function called `add` that takes two optional integers as parameters and returns an optional integer. You should use one `guard` statement to unwrap both optional parameters, returning `nil` in the `guard` body if one or both of the parameters doesn't have a value. If both parameters can successfully be unwrapped, return their sum. Call the function once with non-`nil` numbers and once with at least one parameter being `nil`.
 func add(x: Int?, y: Int?) -> Int? {
-    guard let x = x, let y = y else {
+    guard let x, let y else {
         return nil
     }
     let result = x + y
@@ -49,13 +49,20 @@ lastNameTextField.text = "Huang"
 ageTextField.text = "28"
 
 func createUser() -> User? {
-    guard let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let age = ageTextField.text else { return nil }
+    guard let firstName = firstNameTextField.text,
+          let lastName = lastNameTextField.text,
+          let age = ageTextField.text else { return nil }
+    
     let newUser = User(firstName: firstName, lastName: lastName, age: age)
     return newUser
 }
 
 //:  Call the function you made above and capture the return value. Unwrap the `User` with standard optional binding and print a statement using each of its properties.
-
+if let user = createUser() {
+    print(user.firstName)
+    print(user.lastName)
+    print(user.age)
+}
 
 /*:
 page 1 of 2  |  [Next: App Exercise - Guard](@next)
