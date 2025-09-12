@@ -5,16 +5,48 @@
 
  Previous app exercises have introduced the idea that your fitness tracking app may allow users to track swimming workouts. Create a `SwimmingWorkout` struct below with properties for `distance`, `time`, and `stroke`. `distance` and `time` should be of type `Double` and will represent distance in meters and time in seconds, and `stroke` should be of type `String`.
  */
-
+struct SwimmingWorkout {
+    let distance: Double
+    let time: Double
+    let stroke: Stroke
+    
+    static var breaststrokeWorkouts: [SwimmingWorkout] = []
+    static var backstrokeWorkouts: [SwimmingWorkout] = []
+    static var butterflyWorkouts: [SwimmingWorkout] = []
+    static var freestyleWorkouts: [SwimmingWorkout] = []
+    
+    enum Stroke {
+        case freestyle, butterfly, backstroke, breaststroke
+    }
+    
+    func save() {
+        switch self.stroke {
+        case .backstroke:
+            SwimmingWorkout.backstrokeWorkouts.append(self)
+        case .breaststroke:
+            SwimmingWorkout.breaststrokeWorkouts.append(self)
+        case .butterfly:
+            SwimmingWorkout.butterflyWorkouts.append(self)
+        case .freestyle:
+            SwimmingWorkout.freestyleWorkouts.append(self)
+        }
+    }
+}
 
 //:  Allowing `stroke` to be of type `String` isn't very type-safe. Inside the `SwimmingWorkout` struct, create an enum called `Stroke` that has cases for `freestyle`, `butterfly`, `backstroke`, and `breaststroke`. Change the type of `stroke` from `String` to `Stroke`. Create two instances of `SwimmingWorkout` objects.
-
+let swim1 = SwimmingWorkout(distance: 100.0, time: 25.5, stroke: .butterfly)
+let swim2 = SwimmingWorkout(distance: 50.0, time: 15.0, stroke: .breaststroke)
 
 //:  Now imagine you want to log swimming workouts separately based on the swimming stroke. You might use arrays as static variables on `SwimmingWorkout` for this. Add four static variables, `freestyleWorkouts`, `butterflyWorkouts`, `backstrokeWorkouts`, and `breaststrokeWorkouts`, to `SwimmingWorkout` above. Each should be of type `[SwimmingWorkout]` and should default to empty arrays.
- 
+
 
 //:  Now add an instance method to `SwimmingWorkout` called `save` that takes no parameters and has no return value. This method will add its instance to the static array on `SwimmingWorkout` that corresponds to its swimming stroke. Inside `save` write a switch statement that switches on the instance's `stroke` property, and appends `self` to the proper array. Call save on the two instances of `SwimmingWorkout` that you created above, and then print the array(s) to which they should have been added to see if your `save()` method works properly.
-
+swim1.save()
+swim2.save()
+print(SwimmingWorkout.backstrokeWorkouts)
+print(SwimmingWorkout.breaststrokeWorkouts)
+print(SwimmingWorkout.butterflyWorkouts)
+print(SwimmingWorkout.freestyleWorkouts)
 
 /*:
  _Copyright © 2023 Apple Inc._
