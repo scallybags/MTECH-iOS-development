@@ -85,12 +85,28 @@ class Calculator {
     }
     
     func clearButtonPressed() {
+        if !value2.isEmpty && !value1.isEmpty {
+            clear()
+        } else {
+            allClear()
+        }
+        
+        func clear() {
+            value2 = ""
+            value2HasDot = false
+            print("cleared")
+            printValues()
+        }
+        
+        func allClear() {
             value1 = ""
             value2 = ""
             op = nil
             value1HasDot = false
             value2HasDot = false
             print("All Cleared")
+            printValues()
+        }
     }
     
     func equalButtonPressed() {
@@ -108,28 +124,28 @@ class Calculator {
             value1 = result
             value2 = ""
             op = nil
-            print(result)
+            print("result: \(result)")
             
         case .subtract:
             let result = String(value1Double - value2Double)
             value1 = result
             value2 = ""
             op = nil
-            print(result)
+            print("result: \(result)")
             
         case .multiply:
             let result = String(value1Double * value2Double)
             value1 = result
             value2 = ""
             op = nil
-            print(result)
+            print("result: \(result)")
             
         case .divide:
             let result = String(value1Double / value2Double)
             value1 = result
             value2 = ""
             op = nil
-            print(result)
+            print("result: \(result)")
             
         case .invert:
             let result = String(value1Double * -1)
@@ -137,30 +153,24 @@ class Calculator {
             value1HasDot = true
             value2 = ""
             op = nil
-            print(result)
+            print("result: \(result)")
             
         case .percentage:
             let result = String(value1Double / 100)
             value1 = result
             value2 = ""
             op = nil
-            print(result)
+            print("result: \(result)")
             
         case .none:
             return
         }
+        printValues()
     }
 }
 
 let calculator = Calculator()
 
-calculator.numberButtonPressed(.one)
-calculator.operatorButtonPressed(.invert)
-calculator.numberButtonPressed(.dot)
-calculator.operatorButtonPressed(.multiply)
-calculator.numberButtonPressed(.four)
-calculator.clearButtonPressed()
-calculator.numberButtonPressed(.two)
-calculator.clearButtonPressed()
+
 
 
