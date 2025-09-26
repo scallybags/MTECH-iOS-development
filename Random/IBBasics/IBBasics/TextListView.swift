@@ -9,16 +9,21 @@ import SwiftUI
 
 struct TextListView: View {
     var body: some View {
-        Text("Hello, swift.")
-            .font(.largeTitle)
-            .foregroundStyle(.black)
-            .italic()
-        Text("string")
-            .font(.custom("Geeza Pro", size: 26))
-            .foregroundStyle(Gradient(colors: [.blue, .yellow]))
-        
-        Text("another element")
-            .font(.system(.title2, weight: .bold))
+        ZStack(alignment: .bottom) {
+            Color.black.ignoresSafeArea()
+            
+            RoundedRectangle(cornerRadius: 25).fill(Color.red)
+            
+            Text("Hello, swift.")
+                .font(.largeTitle)
+                .foregroundStyle(.black)
+                .italic()
+            Text("string")
+                .font(.custom("Geeza Pro", size: 26))
+                .foregroundStyle(Gradient(colors: [.blue, .yellow]))
+            
+            Text("another element")
+            .font(.system(.title2, weight: .bold))}
     }
 }
 
