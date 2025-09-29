@@ -38,10 +38,10 @@ struct customButtonMod2: ButtonStyle {
 
 
 struct ContentView: View {
+    
+    @State var handsDisabled = true
+    
     var body: some View {
-        
-        @State var handsEnabled = false
-        
         VStack{
             Button("⛄︎") {}
                 .font(.system(size: 50))
@@ -57,16 +57,16 @@ struct ContentView: View {
             .padding()
             .labelStyle(.iconOnly)
             
-            Button("Toggle Hands") {
-                handsEnabled = true ; print(handsEnabled)
+            Button("Enable Hands") {
+                handsDisabled.toggle() ; print(handsDisabled)
             }
                 .buttonStyle(customButtonMod2())
             
             Button("🫸Hands🫷") { print("hands") }
                 .foregroundColor(.white)
                 .padding()
-                .background(handsEnabled ? .green : .gray )
-                .disabled(handsEnabled ? false : true )
+                .background(handsDisabled ? .green : .gray )
+                .disabled(handsDisabled)
         }
     }
     
