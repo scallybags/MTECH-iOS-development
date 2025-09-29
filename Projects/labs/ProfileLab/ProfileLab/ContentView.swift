@@ -73,17 +73,21 @@ struct ContentView: View {
                             .font(.largeTitle)
                             .underline()
                         HStack {
-                            VStack(alignment: .leading) {
-                                ForEach(quests, id: \.self) { quest in
-                                    Text(quest.title)
-                                }
+                            VStack{
+//                                ForEach(quests)
                             }
                             
-                            Spacer()
-                            
-                            VStack(alignment: .trailing) {
+                            VStack(alignment: .leading) {
                                 ForEach(quests, id: \.self) { quest in
-                                    Text("\(quest.progress)%")
+                                    HStack {
+                                        Button(action:) {
+                                            Text("☐")
+                                        }
+                                        Text(quest.title)
+                                        Spacer()
+                                        Text("\(quest.progress)%")
+                                    }
+                                    
                                 }
                             }
                         }

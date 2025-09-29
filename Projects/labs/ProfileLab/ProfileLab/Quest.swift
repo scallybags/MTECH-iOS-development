@@ -7,6 +7,10 @@
 
 
 struct Quest: Hashable {
-            var title: String
-            var progress: Int
-        }
+    var title: String
+    var progress: Int
+    
+    mutating func complete() {
+        self.progress = 100
+    }
+}
