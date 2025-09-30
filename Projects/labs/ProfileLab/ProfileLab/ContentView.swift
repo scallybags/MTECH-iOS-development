@@ -80,9 +80,7 @@ struct ContentView: View {
                             VStack(alignment: .leading) {
                                 ForEach(quests, id: \.self) { quest in
                                     HStack {
-                                        Button(action:) {
-                                            Text("☐")
-                                        }
+                                        Button("☐") {}.foregroundColor(.black)
                                         Text(quest.title)
                                         Spacer()
                                         Text("\(quest.progress)%")
