@@ -8,6 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var quests: [Quest] = [
+        Quest(title: "10,000 steps", progress: 0),
+        Quest(title: "Code 1 hour", progress: 0),
+        Quest(title: "Workout 1 hour", progress: 0),
+        Quest(title: "Work 5.5 hours", progress: 0),
+        Quest(title: "10,000 steps", progress: 0),
+    ]
+    
     var body: some View {
         let userName = "Andy"
         
@@ -17,13 +26,7 @@ struct ContentView: View {
         
         var moneyToday = 0
         
-        let quests: [Quest] = [
-            Quest(title: "10,000 steps", progress: 0),
-            Quest(title: "Code 1 hour", progress: 0),
-            Quest(title: "Workout 1 hour", progress: 0),
-            Quest(title: "Work 5.5 hours", progress: 0),
-            Quest(title: "10,000 steps", progress: 0),
-        ]
+        
         
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -68,28 +71,7 @@ struct ContentView: View {
                     .scaledToFit()
                     .padding()
                     
-                    VStack(alignment: .leading) {
-                        Text("-Quests-")
-                            .font(.largeTitle)
-                            .underline()
-                        HStack {
-                            VStack{
-//                                ForEach(quests)
-                            }
-                            
-                            VStack(alignment: .leading) {
-                                ForEach(quests, id: \.self) { quest in
-                                    HStack {
-                                        Button("☐") {}.foregroundColor(.black)
-                                        Text(quest.title)
-                                        Spacer()
-                                        Text("\(quest.progress)%")
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
+                    buildQuestView()
                     .padding()
                     
                     Spacer()
@@ -97,6 +79,34 @@ struct ContentView: View {
             }
         }
         .padding()
+    }
+    
+    @ViewBuilder
+    private func buildQuestView() -> some View {
+        VStack(alignment: .leading) {
+            Text("-Quests-")
+                .font(.largeTitle)
+                .underline()
+            HStack {
+                VStack{
+//                                ForEach(quests)
+                }
+                
+                VStack(alignment: .leading) {
+                    ForEach(quests.enumerated(), id: \.offset) { index, quest in
+                        HStack {
+                            Button(quest.progress == 100 ?"☑︎":"☐") {
+                                quests[index].complete()
+                            }.foregroundColor(.black)
+                            Text(quest.title)
+                            Spacer()
+                            Text("\(quest.progress)%")
+                        }
+                        
+                    }
+                }
+            }
+        }
     }
 }
 
