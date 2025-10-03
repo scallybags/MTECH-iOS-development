@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-@Observable class ShipComputer {
+@Observable class ShipComputerViewModel {
     var availablePower = 10
     var heading = ""
 }
 
 struct SpaceshipScreen: View {
-    @State var shipComputer = ShipComputer()
+    @State var shipComputerViewModel = ShipComputerViewModel()
     
     var body: some View {
         Form {
@@ -33,76 +33,123 @@ struct SpaceshipScreen: View {
                 EngineStation()
             }
             
-            Text("Available Power: \(0)")
+            Text("Available Power: \(shipComputerViewModel.availablePower)")
 
         }
         .padding()
-        .environment(shipComputer)
+        .environment(shipComputerViewModel)
     }
 }
 
 struct HelmStation: View {
-    @Environment(ShipComputer.self) var shipComputer // what does this do?
+    @Environment(ShipComputerViewModel.self) var shipComputerViewModel // what does this do?
+    @State var powerUsed: Int = 0
+    @State var inChair: Bool = false
     
     var body: some View {
-        @Bindable var shipComputer = shipComputer
+        @Bindable var shipComputerViewModel = shipComputerViewModel
         
         HStack {
-            CrewChair(crewMember: .dog)
+            CrewChair(crewMember: .dog, inChair: $inChair)
             
-            TextField("Heading", text: $shipComputer.heading)
+            TextField("Heading", text: $shipComputerViewModel.heading).disabled(!inChair)
         }
     }
 }
 
 struct WeaponsStation: View {
-    @Environment(ShipComputer.self) var shipComputer
+    @Environment(ShipComputerViewModel.self) var shipComputerViewModel
+    @State var powerUsed: Int = 0
+    @State var isOn: Bool = false
+    @State var inChair: Bool = false
     
     var body: some View {
+        @Bindable var shipComputerViewModel = shipComputerViewModel
+        
         HStack {
-            CrewChair(crewMember: .cat)
+            CrewChair(crewMember: .cat, inChair: $inChair)
             
             VStack {
-                Toggle("Weapons Power: \(0)", isOn: .constant(false))
-                //            .onChange(of: isOn) {
-                //                // Add logic to remove/add 3 power to the system when enabled/disabled
-                //            }
+                Toggle("Weapons Power: \(powerUsed)", isOn: $isOn)
+                        .onChange(of: isOn) {
+                            // Add logic to remove/add 3 power to the system when enabled/disabled
+                            if isOn {
+                                shipComputerViewModel.availablePower -= 3
+                                powerUsed = 3
+                            } else {
+                                shipComputerViewModel.availablePower += 3
+                                powerUsed = 0
+                            }
+                                
+                            if shipComputerViewModel.availablePower < 0 {
+                                isOn = false
+                            }
+                        }.disabled(!inChair)
                 
                 Button("Fire!") {
                     // Add logic to only allow firing if power is available
                     print("PEW!")
                 }
-                .disabled(true)
+                .disabled(!isOn)
             }
         }
     }
 }
 
 struct ShieldStation: View {
-    @Environment(ShipComputer.self) var shipComputer
+    @Environment(ShipComputerViewModel.self) var shipComputerViewModel
+    @State var powerUsed: Int = 0
+    @State var inChair: Bool = false
+    
     var body: some View {
+        @Bindable var shipComputerViewModel = shipComputerViewModel
+        
         HStack {
-            CrewChair(crewMember: .lizard)
+            CrewChair(crewMember: .lizard, inChair: $inChair)
             
-            Stepper("Shield Power: \(0)", value: .constant(0), in: 0...10)
+            Stepper("Shield Power: \(powerUsed)", value: $powerUsed, in: 0...10)
+                .onChange(of: powerUsed) { oldValue, newValue in
+                    let difference = newValue - oldValue
+                    
+                    shipComputerViewModel.availablePower -= difference
+                    
+                    //not working correctly, can go negative past 0
+                    if shipComputerViewModel.availablePower < 0 {
+                        powerUsed = oldValue
+                    }
+                }.disabled(!inChair)
         }
     }
 }
 
 struct EngineStation: View {
-    @Environment(ShipComputer.self) var shipComputer
+    @Environment(ShipComputerViewModel.self) var shipComputerViewModel
+    @State var powerUsed: Int = 0
+    @State var inChair: Bool = false
+    
     var body: some View {
+        @Bindable var shipComputerViewModel = shipComputerViewModel
+        
         HStack {
-            CrewChair(crewMember: .hare)
-            Stepper("Engine Power: \(0)", value: .constant(0), in: 0...10)
-
+            CrewChair(crewMember: .hare, inChair: $inChair)
+            Stepper("Engine Power: \(powerUsed)", value: $powerUsed, in: 0...10)
+                .onChange(of: powerUsed) { oldValue, newValue in
+                    let difference = newValue - oldValue
+                    
+                    shipComputerViewModel.availablePower -= difference
+                    
+                    //not working correctly, can go negative past 0
+                    if shipComputerViewModel.availablePower < 0 {
+                        powerUsed = oldValue
+                    }
+                }.disabled(!inChair)
         }
     }
 }
 
 struct CrewChair: View {
     var crewMember: Crew
-    @State var inChair: Bool = false
+    @Binding var inChair: Bool
     
     var body: some View {
         Button {
@@ -115,6 +162,7 @@ struct CrewChair: View {
             }
         }
         .padding(5)
+        .buttonStyle(.plain)
         .background {
             Circle()
                 .foregroundStyle(.gray)

@@ -22,10 +22,11 @@ struct HotelRegistrationScreen: View {
     @State private var firstName = ""
     @State private var lastName = ""
     @State private var doorCode = ""
-    @State private var numberOfGuests = 0
+    @State private var numberOfGuests = 1
     @State private var lengthOfStay = 0
     @State private var nonSmoking = true
-    @State private var registration = 1
+    @State private var submitted = false
+    @State private var registrationFeedback: Double = 5
     
     private let pickerNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
@@ -56,6 +57,9 @@ struct HotelRegistrationScreen: View {
                 .foregroundColor(Color.background)
             )
             
+            Text("Welcome!")
+                .font(.custom("Rockwell", size: 20))
+                .foregroundStyle(.text)
             
             TextField("First Name", text: $firstName).padding()
             
@@ -74,11 +78,23 @@ struct HotelRegistrationScreen: View {
             
             Toggle("Non Smoking", isOn: $nonSmoking)
             
-            Spacer()
+            ZStack {
+                Capsule().foregroundColor(.highlight)
+                
+                Button(action: {submitted = true}) {
+                    Text("Submit")
+                }
+                .foregroundColor(Color.background)
+            }
+            .frame(width: 90, height: 40)
             
-            Text("Welcome!")
-                .font(.custom("Rockwell", size: 20))
-                .foregroundStyle(.text)
+            
+            if submitted == true {
+                Text("Thank you for booking with us").padding()
+                Text("How would you rate your booking experience?")
+                Text("\(Int(registrationFeedback))/5⭐️").padding()
+                Slider(value: $registrationFeedback, in: 0...5, step: 1) { }
+            }
             
             Spacer()
             
