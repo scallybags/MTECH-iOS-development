@@ -22,6 +22,7 @@ func checkMeals(mealTime: String) -> Meal? {
         return nil
     }
 }
+
 let result = checkMeals(mealTime: "Breakfast")
 print(result)
 let result2 = checkMeals(mealTime: "Dinner")

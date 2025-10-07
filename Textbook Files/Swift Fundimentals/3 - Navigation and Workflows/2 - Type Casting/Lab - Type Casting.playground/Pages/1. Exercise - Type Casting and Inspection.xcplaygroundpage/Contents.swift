@@ -34,19 +34,25 @@ print(dictonary)
 //:  Create a variable `total` of type `Double` set to 0. Then loop through the dictionary, and add the value of each integer and double to your variable's value. For each string value, add 1 to the total. For each boolean, add 2 to the total if the boolean is `true`, or subtract 3 if it's `false`. Print the value of `total`.
 var total: Double = 0
 for item in dictonary {
-    if let itemValue = item.value as? Int {
-        total += Double(itemValue)
-    } else if let itemValue = item.value as? Double {
-        total += itemValue
-    } else if let itemValue = item.value as? String {
-        total += 1
-    } else if let itemValue = item.value as? Bool {
-        if itemValue == true {
-            total += 2
-        } else {
-            total -= 3
-        }
+    switch item {
+    case let itemValue = item.value as? Int:
+        <#code#>
+    default:
+        <#code#>
     }
+//    if let itemValue = item.value as? Int {
+//        total += Double(itemValue)
+//    } else if let itemValue = item.value as? Double {
+//        total += itemValue
+//    } else if let itemValue = item.value as? String {
+//        total += 1
+//    } else if let itemValue = item.value as? Bool {
+//        if itemValue == true {
+//            total += 2
+//        } else {
+//            total -= 3
+//        }
+//    }
 }
 print(total)
 //:  Create a variable `total2` of type `Double` set to 0. Loop through the collection again, adding up all the integers and doubles. For each string that you come across during the loop, attempt to convert the string into a number, and add that value to the total. Ignore booleans. Print the total.
