@@ -9,17 +9,17 @@ import SwiftUI
 
 
 struct ContentView: View {
-    let carsArray = [
+    @State var carsArray = [
         Car(id: "Toyota Camery" , make: "Toyota", model: "Camry", year: 1998),
         Car(id: "Acura TL" , make: "Acura", model: "TL", year: 2006),
-        Car(id: "Ford Ranger", make: "Ford", model: "Ranger", year: 2001)
+        Car(id: "Ford Ranger", make: "Ford", model: "Ranger", year: 2001),
     ]
 
     var body: some View {
         NavigationStack{
-            List(carsArray) { car in
-                NavigationLink(destination: FormView(car: car) ) {
-                    FormView(car: car)
+            List($carsArray) { $car in
+                NavigationLink {
+                    FormView(car: $car)
                 } label: {
                     VStack(alignment: .leading) {
                         Text(car.make)
@@ -33,16 +33,13 @@ struct ContentView: View {
 }
 
 struct FormView: View {
-    @State var car: Car
-    
-    init(car: Car) {
-        self.car = car
-    }
+    @Binding var car: Car
     
     var body: some View {
         Form {
             TextField("Make", text: $car.make)
-            
+            TextField("Model", text: $car.model)
+            Stepper("Year \(car.year)", value: $car.year)
         }
     }
 }
