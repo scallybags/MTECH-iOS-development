@@ -10,4 +10,7 @@ struct Member: Identifiable {
     let id = UUID()
     let name: String
     let age: Int
+    let image: Image
+    let occupation: String
+    var viewed = false
 }
