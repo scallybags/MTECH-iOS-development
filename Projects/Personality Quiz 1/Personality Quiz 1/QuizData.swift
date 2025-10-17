@@ -4,6 +4,8 @@
 //
 //  Created by Andrew Vanderwilt on 10/15/25.
 //
+import SwiftUI
+
 struct Question {
     var text: String
     var type: ResponseType
@@ -23,16 +25,10 @@ enum DuneCharacter {
     case paul, chani, ladyJess, raban, stilgar
 }
 
-struct QuizManager {
-    var currentQuestion = 0
+@Observable class QuizManager {
+    var currentQuestion = 1
     //
-    var selectedAnswers: [String:Int] = [
-        "Paul": 0,
-        "Chani": 0,
-        "Lady Jessica": 0,
-        "Raban": 0,
-        "Stilgar": 0,
-    ]
+    var selectedAnswers: [DuneCharacter] = []
     //
     let questionList: [Question] = [
         Question(
@@ -73,15 +69,15 @@ struct QuizManager {
     func selectedAnswer(_ answer: Answer) {
         switch answer.type {
         case .paul:
-            selectedAnswers[.paul] += 1
+            selectedAnswers.append(.paul)
         case .chani:
-            <#code#>
+            selectedAnswers.append(.chani)
         case .ladyJess:
-            <#code#>
+            selectedAnswers.append(.ladyJess)
         case .raban:
-            <#code#>
+            selectedAnswers.append(.raban)
         case .stilgar:
-            <#code#>
+            selectedAnswers.append(.stilgar)
         }
     }
     //

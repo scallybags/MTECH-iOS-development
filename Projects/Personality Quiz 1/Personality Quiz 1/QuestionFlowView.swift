@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct QuestionFlowView: View {
+    var quizManager = QuizManager()
     var body: some View {
-        
+        switch quizManager.questionList[quizManager.currentQuestion].type {
+        case .single:
+            SingleQuestionSubview()
+        case .multiple:
+            MultipleQuestionSubview()
+        case .ranged:
+            RangedQuestionSubview()
+        }
     }
 }
 
