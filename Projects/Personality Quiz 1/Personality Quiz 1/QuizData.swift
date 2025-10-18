@@ -28,7 +28,13 @@ enum DuneCharacter {
 @Observable class QuizManager {
     var currentQuestion = 0
     //
-    var selectedAnswers: [DuneCharacter] = []
+    var selectedAnswers: [DuneCharacter: Int] = [
+        .paul: 0,
+        .chani: 0,
+        .ladyJess: 0,
+        .raban: 0,
+        .stilgar: 0,
+    ]
     //
     let questionList: [Question] = [
         Question(
@@ -69,15 +75,29 @@ enum DuneCharacter {
     func selectedAnswer(_ answer: Answer) {
         switch answer.type {
         case .paul:
-            selectedAnswers.append(.paul)
+            guard let value = selectedAnswers[.paul] else { return }
+            let newValue = value + 1
+            selectedAnswers.updateValue(newValue, forKey: .paul)
+            
         case .chani:
-            selectedAnswers.append(.chani)
+            guard let value = selectedAnswers[.chani] else { return }
+            let newValue = value + 1
+            selectedAnswers.updateValue(newValue, forKey: .chani)
+            
         case .ladyJess:
-            selectedAnswers.append(.ladyJess)
+            guard let value = selectedAnswers[.ladyJess] else { return }
+            let newValue = value + 1
+            selectedAnswers.updateValue(newValue, forKey: .ladyJess)
+            
         case .raban:
-            selectedAnswers.append(.raban)
+            guard let value = selectedAnswers[.raban] else { return }
+            let newValue = value + 1
+            selectedAnswers.updateValue(newValue, forKey: .raban)
+            
         case .stilgar:
-            selectedAnswers.append(.stilgar)
+            guard let value = selectedAnswers[.stilgar] else { return }
+            let newValue = value + 1
+            selectedAnswers.updateValue(newValue, forKey: .stilgar)
         }
     }
     //
