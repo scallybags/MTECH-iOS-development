@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct RangedQuestionSubview: View {
+    @Environment(QuizManager.self) var quizManager
     @State private var sliderValue: Double = 5
     @State private var isEditing = false
+    private var question: Question { quizManager.questionList[quizManager.currentQuestion] }
     
     var body: some View {
         ZStack {
@@ -18,7 +20,7 @@ struct RangedQuestionSubview: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("Question Here?")
+                Text("\(question.text)")
                     .font(.custom("Optima", size: 22))
                 //
                 Slider(
@@ -57,8 +59,4 @@ struct RangedQuestionSubview: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        RangedQuestionSubview()
-    }
-}
+

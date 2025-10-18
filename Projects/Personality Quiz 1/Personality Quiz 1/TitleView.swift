@@ -39,18 +39,6 @@ struct TitleView: View {
                     }
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        
-                    } label: {
-                        Text("Next")
-                            .padding()
-                            .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
-                    }
-                }
-                .sharedBackgroundVisibility(.hidden)
-            }
         }.environment(quizManager)
     }
 }

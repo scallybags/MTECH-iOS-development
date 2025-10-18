@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SingleQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
-    @State private var pickerChoice: DuneCharacter = .paul
     private var question: Question { quizManager.questionList[quizManager.currentQuestion] }
+    @State var pickerChoice: Answer = Answer(text: "", type: .paul)
     
     var body: some View {
         ZStack {
@@ -23,9 +23,8 @@ struct SingleQuestionSubview: View {
                     .font(.custom("Optima", size: 22))
                 //
                 Picker("Picker", selection: $pickerChoice) {
-                    let answers = question.answers
-                    ForEach(answers.indices, id: \.self) { index in
-                        Text(answers[index].text)
+                    ForEach(question.answers, id: \.self) { answer in
+                        Text(answer.text)
                     }
                 }
                 .pickerStyle(.wheel)
@@ -36,10 +35,13 @@ struct SingleQuestionSubview: View {
                 NavigationLink {
                     QuestionFlowView()
                         .onAppear {
+                            quizManager.selectedAnswer(pickerChoice)
                             quizManager.currentQuestion += 1
                             print(quizManager.currentQuestion)
+                            print(quizManager.selectedAnswers)
                         }
                         .onDisappear {
+                            quizManager.selectedAnswers
                             quizManager.currentQuestion -= 1
                             print(quizManager.currentQuestion)
                         }
