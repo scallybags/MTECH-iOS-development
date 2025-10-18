@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SingleQuestionSubview: View {
-    @State private var pickerChoice = "A"
-    var pickerABCD = ["A.", "B.", "C.", "D."]
+    @Environment(QuizManager.self) var quizManager
+    @State private var pickerChoice: DuneCharacter = .paul
+    private var question: Question { quizManager.questionList[quizManager.currentQuestion] }
     
     var body: some View {
         ZStack {
@@ -18,12 +19,13 @@ struct SingleQuestionSubview: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("Question Here?")
+                Text("\(question.text)")
                     .font(.custom("Optima", size: 22))
                 //
-                Picker("picker", selection: $pickerChoice) {
-                    ForEach(pickerABCD, id: \.self) { letter in
-                        Text(letter)
+                Picker("Picker", selection: $pickerChoice) {
+                    let answers = question.answers
+                    ForEach(answers.indices, id: \.self) { index in
+                        Text(answers[index].text)
                     }
                 }
                 .pickerStyle(.wheel)
@@ -32,7 +34,15 @@ struct SingleQuestionSubview: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    Text("Nexted")
+                    QuestionFlowView()
+                        .onAppear {
+                            quizManager.currentQuestion += 1
+                            print(quizManager.currentQuestion)
+                        }
+                        .onDisappear {
+                            quizManager.currentQuestion -= 1
+                            print(quizManager.currentQuestion)
+                        }
                 } label: {
                     Text("Next")
                         .padding()
@@ -44,8 +54,4 @@ struct SingleQuestionSubview: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        SingleQuestionSubview()
-    }
-}
+

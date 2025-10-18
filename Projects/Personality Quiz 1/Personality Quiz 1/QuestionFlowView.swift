@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuestionFlowView: View {
-    var quizManager = QuizManager()
+    @Environment(QuizManager.self) var quizManager
     var body: some View {
         switch quizManager.questionList[quizManager.currentQuestion].type {
         case .single:
@@ -21,6 +21,4 @@ struct QuestionFlowView: View {
     }
 }
 
-#Preview {
-    QuestionFlowView()
-}
+

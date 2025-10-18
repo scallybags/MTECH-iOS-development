@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct TitleView: View {
+    var quizManager = QuizManager()
     
     var body: some View {
+        
         NavigationStack {
             ZStack {
                 Rectangle()
@@ -49,7 +51,7 @@ struct TitleView: View {
                 }
                 .sharedBackgroundVisibility(.hidden)
             }
-        }
+        }.environment(quizManager)
     }
 }
 

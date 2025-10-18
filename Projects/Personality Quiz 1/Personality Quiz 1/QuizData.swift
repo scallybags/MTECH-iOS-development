@@ -26,7 +26,7 @@ enum DuneCharacter {
 }
 
 @Observable class QuizManager {
-    var currentQuestion = 1
+    var currentQuestion = 0
     //
     var selectedAnswers: [DuneCharacter] = []
     //
