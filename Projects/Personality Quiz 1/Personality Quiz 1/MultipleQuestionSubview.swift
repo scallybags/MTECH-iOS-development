@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct MultipleQuestionSubview: View {
+    @Environment(QuizManager.self) var quizManager
+    private var question: Question { quizManager.questionList[quizManager.currentQuestion] }
+    
     @State var isOnA = false
     @State var isOnB = false
     @State var isOnC = false
     @State var isOnD = false
+    @State var isOnE = false
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -19,20 +24,32 @@ struct MultipleQuestionSubview: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("Question Here?")
+                Text("\(question.text)")
                     .font(.custom("Optima", size: 22))
                 //
-                Toggle("A.", isOn: $isOnA)
-                Toggle("B.", isOn: $isOnB)
-                Toggle("C.", isOn: $isOnC)
-                Toggle("D.", isOn: $isOnD)
+                Toggle(question.answers[0].text, isOn: $isOnA)
+                Toggle(question.answers[1].text, isOn: $isOnB)
+                Toggle(question.answers[2].text, isOn: $isOnC)
+                Toggle(question.answers[3].text, isOn: $isOnD)
+                Toggle(question.answers[4].text, isOn: $isOnE)
             }
             .padding([.leading, .trailing], 20)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    Text("Nexted")
+                    QuestionFlowView()
+                        .onAppear {
+                            let choices = [isOnA, isOnB, isOnC, isOnD, isOnE].enumerated()
+                            for (index, choice) in choices {
+                                if choice == true {
+                                    quizManager.selectedAnswer(question.answers[index])
+                                }
+                            }
+                            quizManager.currentQuestion += 1
+                            print(quizManager.currentQuestion)
+                            print(quizManager.selectedAnswers)
+                        }
                 } label: {
                     Text("Next")
                         .padding()
@@ -45,8 +62,3 @@ struct MultipleQuestionSubview: View {
 }
 
 
-#Preview {
-    NavigationStack {
-        MultipleQuestionSubview()
-    }
-}

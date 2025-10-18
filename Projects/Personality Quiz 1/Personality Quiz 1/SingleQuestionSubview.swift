@@ -40,11 +40,6 @@ struct SingleQuestionSubview: View {
                             print(quizManager.currentQuestion)
                             print(quizManager.selectedAnswers)
                         }
-                        .onDisappear {
-                            quizManager.selectedAnswers
-                            quizManager.currentQuestion -= 1
-                            print(quizManager.currentQuestion)
-                        }
                 } label: {
                     Text("Next")
                         .padding()

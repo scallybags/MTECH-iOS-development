@@ -47,7 +47,17 @@ struct RangedQuestionSubview: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    Text("Nexted")
+                    QuestionFlowView()
+                        .onAppear {
+                            quizManager.selectedAnswer(question.answers[Int(sliderValue)])
+                            if quizManager.currentQuestion <= quizManager.questionList.count - 1 {
+                                quizManager.currentQuestion += 1
+                            } else {
+                                quizManager.currentQuestion = quizManager.currentQuestion
+                            }
+                            print(quizManager.currentQuestion)
+                            print(quizManager.selectedAnswers)
+                        }
                 } label: {
                     Text("Next")
                         .padding()
