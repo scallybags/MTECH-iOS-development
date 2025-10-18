@@ -46,7 +46,9 @@ struct MultipleQuestionSubview: View {
                                     quizManager.selectedAnswer(question.answers[index])
                                 }
                             }
-                            quizManager.currentQuestion += 1
+                            if quizManager.currentQuestion < (quizManager.questionList.count - 1) {
+                                quizManager.currentQuestion += 1
+                            }
                             print(quizManager.currentQuestion)
                             print(quizManager.selectedAnswers)
                         }
@@ -57,7 +59,34 @@ struct MultipleQuestionSubview: View {
                 }
             }
             .sharedBackgroundVisibility(.hidden)
+//            ToolbarItem(placement: .topBarLeading) {
+//                NavigationLink {
+//                    QuestionFlowView()
+//                        .onAppear {
+//                            let lastIndex = (quizManager.selectedAnswers.count - 1)
+//                            let choices = [isOnA, isOnB, isOnC, isOnD, isOnE]
+//                            var trueChoices: [Bool] = []
+//                            for choice in choices {
+//                                if choice == true {
+//                                    trueChoices.append(choice)
+//                                }
+//                            }
+//                            for (index, _) in trueChoices.enumerated() {
+//                                quizManager.selectedAnswers.remove(at: (lastIndex - index))
+//                            }
+//                            quizManager.currentQuestion -= 1
+//                            print(quizManager.currentQuestion)
+//                            print(quizManager.selectedAnswers)
+//                        }
+//                } label: {
+//                    Text("Back")
+//                        .padding()
+//                        .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
+//                }
+//            }
+//            .sharedBackgroundVisibility(.hidden)
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

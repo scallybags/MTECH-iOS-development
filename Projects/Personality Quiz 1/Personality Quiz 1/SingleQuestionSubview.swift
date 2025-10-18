@@ -36,7 +36,9 @@ struct SingleQuestionSubview: View {
                     QuestionFlowView()
                         .onAppear {
                             quizManager.selectedAnswer(pickerChoice)
-                            quizManager.currentQuestion += 1
+                            if quizManager.currentQuestion < (quizManager.questionList.count - 1) {
+                                quizManager.currentQuestion += 1
+                            }
                             print(quizManager.currentQuestion)
                             print(quizManager.selectedAnswers)
                         }
@@ -47,7 +49,7 @@ struct SingleQuestionSubview: View {
                 }
             }
             .sharedBackgroundVisibility(.hidden)
-        }
+        }.navigationBarBackButtonHidden()
     }
 }
 

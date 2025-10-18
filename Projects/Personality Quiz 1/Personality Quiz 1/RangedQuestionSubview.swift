@@ -49,11 +49,9 @@ struct RangedQuestionSubview: View {
                 NavigationLink {
                     QuestionFlowView()
                         .onAppear {
-                            quizManager.selectedAnswer(question.answers[Int(sliderValue)])
-                            if quizManager.currentQuestion <= quizManager.questionList.count - 1 {
+                            quizManager.selectedAnswer(question.answers[(Int(sliderValue) - 1)])
+                            if quizManager.currentQuestion < (quizManager.questionList.count - 1) {
                                 quizManager.currentQuestion += 1
-                            } else {
-                                quizManager.currentQuestion = quizManager.currentQuestion
                             }
                             print(quizManager.currentQuestion)
                             print(quizManager.selectedAnswers)
@@ -63,9 +61,8 @@ struct RangedQuestionSubview: View {
                         .padding()
                         .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
                 }
-            }
-            .sharedBackgroundVisibility(.hidden)
-        }
+            }.sharedBackgroundVisibility(.hidden)
+        }.navigationBarBackButtonHidden()
     }
 }
 
