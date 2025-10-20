@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SingleQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
-    private var question: Question { quizManager.questionList[quizManager.currentQuestion] }
+    private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
     @State var pickerChoice: Answer = Answer(text: "", type: .paul)
     
     var body: some View {
@@ -30,26 +30,6 @@ struct SingleQuestionSubview: View {
                 .pickerStyle(.wheel)
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    QuestionFlowView()
-                        .onAppear {
-                            quizManager.selectedAnswer(pickerChoice)
-                            if quizManager.currentQuestion < (quizManager.questionList.count - 1) {
-                                quizManager.currentQuestion += 1
-                            }
-                            print(quizManager.currentQuestion)
-                            print(quizManager.selectedAnswers)
-                        }
-                } label: {
-                    Text("Next")
-                        .padding()
-                        .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
-                }
-            }
-            .sharedBackgroundVisibility(.hidden)
-        }.navigationBarBackButtonHidden()
     }
 }
 

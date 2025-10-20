@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct Question {
+struct Question: Hashable {
     var text: String
     var type: ResponseType
     var answers: [Answer]
@@ -26,15 +26,9 @@ enum DuneCharacter {
 }
 
 @Observable class QuizManager {
-    var currentQuestion = 0
+    var currentQuestionIndex = 0
     //
-    var selectedAnswers: [DuneCharacter: Int] = [
-        .paul: 0,
-        .chani: 0,
-        .ladyJess: 0,
-        .raban: 0,
-        .stilgar: 0,
-    ]
+    var selectedAnswers: [Question: [Answer]] = [:]
     //
     let questionList: [Question] = [
         Question(
@@ -72,33 +66,8 @@ enum DuneCharacter {
         )
     ]
     //
-    func selectedAnswer(_ answer: Answer) {
-        switch answer.type {
-        case .paul:
-            guard let value = selectedAnswers[.paul] else { return }
-            let newValue = value + 1
-            selectedAnswers.updateValue(newValue, forKey: .paul)
-            
-        case .chani:
-            guard let value = selectedAnswers[.chani] else { return }
-            let newValue = value + 1
-            selectedAnswers.updateValue(newValue, forKey: .chani)
-            
-        case .ladyJess:
-            guard let value = selectedAnswers[.ladyJess] else { return }
-            let newValue = value + 1
-            selectedAnswers.updateValue(newValue, forKey: .ladyJess)
-            
-        case .raban:
-            guard let value = selectedAnswers[.raban] else { return }
-            let newValue = value + 1
-            selectedAnswers.updateValue(newValue, forKey: .raban)
-            
-        case .stilgar:
-            guard let value = selectedAnswers[.stilgar] else { return }
-            let newValue = value + 1
-            selectedAnswers.updateValue(newValue, forKey: .stilgar)
-        }
+    func selectedAnswer(question: Question, answers: [Answer]) {
+        selectedAnswers[question] = answers
     }
     //
 }

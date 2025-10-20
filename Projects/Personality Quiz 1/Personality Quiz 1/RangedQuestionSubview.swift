@@ -11,7 +11,7 @@ struct RangedQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
     @State private var sliderValue: Double = 5
     @State private var isEditing = false
-    private var question: Question { quizManager.questionList[quizManager.currentQuestion] }
+    private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
     
     var body: some View {
         ZStack {
@@ -44,25 +44,6 @@ struct RangedQuestionSubview: View {
                     .foregroundColor(isEditing ? .red : .black)
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    QuestionFlowView()
-                        .onAppear {
-                            quizManager.selectedAnswer(question.answers[(Int(sliderValue) - 1)])
-                            if quizManager.currentQuestion < (quizManager.questionList.count - 1) {
-                                quizManager.currentQuestion += 1
-                            }
-                            print(quizManager.currentQuestion)
-                            print(quizManager.selectedAnswers)
-                        }
-                } label: {
-                    Text("Next")
-                        .padding()
-                        .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
-                }
-            }.sharedBackgroundVisibility(.hidden)
-        }.navigationBarBackButtonHidden()
     }
 }
 
