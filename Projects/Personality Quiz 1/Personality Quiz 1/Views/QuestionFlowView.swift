@@ -29,7 +29,6 @@ struct QuestionFlowView: View {
                 NavigationLink {
                     QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex])
                         .onAppear {
-//                            quizManager.selectedAnswer(question: question, answers: answers)
                             if quizManager.currentQuestionIndex < (quizManager.questionList.count - 1) {
                                 quizManager.currentQuestionIndex += 1
                             }
@@ -44,7 +43,7 @@ struct QuestionFlowView: View {
             }
             .sharedBackgroundVisibility(.hidden)
             //
-        }.navigationBarBackButtonHidden()
+        }
     }
 }
 

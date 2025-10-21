@@ -66,7 +66,7 @@ enum DuneCharacter {
         )
     ]
     //
-    func selectedAnswer(question: Question, answers: [Answer]) {
+    func updateSelectedAnswer(question: Question, answers: [Answer]) {
         selectedAnswers[question] = answers
     }
     //
