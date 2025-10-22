@@ -28,7 +28,7 @@ struct TitleView: View {
                         .font(.custom("Optima", size: 22))
                     //
                     NavigationLink {
-                        QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex])
+                        QuestionFlowView()
                     } label: {
                         Text("Begin")
                             .font(.custom("Optima", size: 40))

@@ -10,7 +10,6 @@ import SwiftUI
 struct MultipleQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
     @State private var vm = MultipleQuestionViewModel()
-    private var answers: [Answer] = []
         
     var body: some View {
         ZStack {
@@ -19,17 +18,29 @@ struct MultipleQuestionSubview: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("\(vm.question.text)")
+                Text("\(quizManager.currentQuestion.text)")
                     .font(.custom("Optima", size: 22))
                 //
-                Toggle(vm.question.answers[0].text, isOn: $vm.isOnA)
+                Toggle(quizManager.currentQuestion.answers[0].text, isOn: $vm.isOnA)
                     .onChange(of: vm.isOnA) {
-                        quizManager.updateSelectedAnswer(question: vm.question, answers: answers)
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[0])
                     }
-                Toggle(vm.question.answers[1].text, isOn: $vm.isOnB)
-                Toggle(vm.question.answers[2].text, isOn: $vm.isOnC)
-                Toggle(vm.question.answers[3].text, isOn: $vm.isOnD)
-                Toggle(vm.question.answers[4].text, isOn: $vm.isOnE)
+                Toggle(quizManager.currentQuestion.answers[1].text, isOn: $vm.isOnB)
+                    .onChange(of: vm.isOnB) {
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[1])
+                    }
+                Toggle(quizManager.currentQuestion.answers[2].text, isOn: $vm.isOnC)
+                    .onChange(of: vm.isOnC) {
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[2])
+                    }
+                Toggle(quizManager.currentQuestion.answers[3].text, isOn: $vm.isOnD)
+                    .onChange(of: vm.isOnD) {
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[3])
+                    }
+                Toggle(quizManager.currentQuestion.answers[4].text, isOn: $vm.isOnE)
+                    .onChange(of: vm.isOnE) {
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[4])
+                    }
             }
             .padding([.leading, .trailing], 20)
         }

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct SingleQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
-    private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
+//    private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
     @State var pickerChoice: Answer = Answer(text: "", type: .paul)
-    var answers: [Answer] = [Answer(text: "", type: .paul)]
     
     var body: some View {
         ZStack {
@@ -20,17 +19,18 @@ struct SingleQuestionSubview: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("\(question.text)")
+                Text("\(quizManager.currentQuestion.text)")
                     .font(.custom("Optima", size: 22))
                 //
                 Picker("Picker", selection: $pickerChoice) {
-                    ForEach(question.answers, id: \.self) { answer in
+                    ForEach(quizManager.currentQuestion.answers, id: \.self) { answer in
                         Text(answer.text)
                     }
                 }
                 .pickerStyle(.wheel)
                 .onChange(of: pickerChoice) {
-                    quizManager.updateSelectedAnswer(question: question, answers: [pickerChoice])
+                    print("picker choice changed to \(pickerChoice)")
+                    quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: pickerChoice)
                 }
             }
         }

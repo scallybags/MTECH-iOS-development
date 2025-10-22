@@ -7,29 +7,13 @@
 import SwiftUI
 
 struct Question: Hashable {
+    var id = UUID()
     var text: String
     var type: ResponseType
     var answers: [Answer]
 }
 
-enum ResponseType {
-    case single, multiple, ranged
-}
-
-struct Answer: Hashable {
-    var text: String
-    var type: DuneCharacter
-}
-
-enum DuneCharacter {
-    case paul, chani, ladyJess, raban, stilgar
-}
-
-@Observable class QuizManager {
-    var currentQuestionIndex = 0
-    //
-    var selectedAnswers: [Question: [Answer]] = [:]
-    //
+struct QuestionList {
     let questionList: [Question] = [
         Question(
             text: "What is your favorite type of weather?",
@@ -65,9 +49,31 @@ enum DuneCharacter {
             ]
         )
     ]
+}
+
+enum ResponseType {
+    case single, multiple, ranged
+}
+
+struct Answer: Hashable {
+    var text: String
+    var type: DuneCharacter
+}
+
+enum DuneCharacter {
+    case paul, chani, ladyJess, raban, stilgar
+}
+
+@Observable class QuizManager {
+    let questionList = QuestionList().questionList
     //
-    func updateSelectedAnswer(question: Question, answers: [Answer]) {
-        selectedAnswers[question] = answers
+    var currentQuestionIndex = 0
+    //
+    var selectedAnswers: [UUID: [Answer]] = [:]
+    //
+    var currentQuestion: Question = QuestionList().questionList[0]
+    //
+    func updateSelectedAnswer(question: Question, answers: Answer) {
+        selectedAnswers[question.id] = [answers]
     }
-    //
 }

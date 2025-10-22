@@ -11,7 +11,7 @@ struct RangedQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
     @State private var sliderValue: Double = 5
     @State private var isEditing = false
-    private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
+//    private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
     
     var body: some View {
         ZStack {
@@ -20,7 +20,7 @@ struct RangedQuestionSubview: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("\(question.text)")
+                Text("\(quizManager.currentQuestion.text)")
                     .font(.custom("Optima", size: 22))
                 //
                 Slider(

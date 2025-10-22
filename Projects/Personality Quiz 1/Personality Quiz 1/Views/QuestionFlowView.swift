@@ -10,11 +10,9 @@ import SwiftUI
 struct QuestionFlowView: View {
     @Environment(QuizManager.self) var quizManager
     
-    let question: Question
-    
     var body: some View {
         VStack {
-            switch self.question.type {
+            switch self.quizManager.currentQuestion.type {
             case .single:
                 SingleQuestionSubview()
             case .multiple:
@@ -27,8 +25,9 @@ struct QuestionFlowView: View {
             // NEXT BUTTON
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex])
+                    QuestionFlowView()
                         .onAppear {
+                            quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.questionList[quizManager.currentQuestionIndex].answers[0])
                             if quizManager.currentQuestionIndex < (quizManager.questionList.count - 1) {
                                 quizManager.currentQuestionIndex += 1
                             }

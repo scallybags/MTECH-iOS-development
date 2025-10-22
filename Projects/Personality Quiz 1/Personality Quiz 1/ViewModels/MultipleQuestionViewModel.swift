@@ -10,8 +10,6 @@ import SwiftUI
 class MultipleQuestionViewModel {
     var quizManager: QuizManager
     
-    var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
-    
     var isOnA = false
     var isOnB = false
     var isOnC = false
