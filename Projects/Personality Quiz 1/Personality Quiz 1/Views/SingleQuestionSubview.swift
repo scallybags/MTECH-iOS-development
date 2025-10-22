@@ -11,7 +11,7 @@ struct SingleQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
     private var question: Question { quizManager.questionList[quizManager.currentQuestionIndex] }
     @State var pickerChoice: Answer = Answer(text: "", type: .paul)
-    var answers: [Answer] = []
+    var answers: [Answer] = [Answer(text: "", type: .paul)]
     
     var body: some View {
         ZStack {
@@ -30,7 +30,7 @@ struct SingleQuestionSubview: View {
                 }
                 .pickerStyle(.wheel)
                 .onChange(of: pickerChoice) {
-                    quizManager.updateSelectedAnswer(question: question, answers: answers)
+                    quizManager.updateSelectedAnswer(question: question, answers: [pickerChoice])
                 }
             }
         }
