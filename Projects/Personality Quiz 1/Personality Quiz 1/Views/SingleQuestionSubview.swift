@@ -30,7 +30,8 @@ struct SingleQuestionSubview: View {
                 .pickerStyle(.wheel)
                 .onChange(of: pickerChoice) {
                     print("picker choice changed to \(pickerChoice)")
-                    quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: pickerChoice)
+                    quizManager.currentAnswers = [pickerChoice]
+                    quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                 }
             }
         }

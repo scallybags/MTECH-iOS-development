@@ -13,6 +13,8 @@ struct Question: Hashable {
     var answers: [Answer]
 }
 
+
+
 struct QuestionList {
     let questionList: [Question] = [
         Question(
@@ -64,8 +66,15 @@ enum DuneCharacter {
     case paul, chani, ladyJess, raban, stilgar
 }
 
-@Observable class QuizManager {
+@Observable
+class QuizManager {
     let questionList = QuestionList().questionList
+    //
+    var isOnA = false
+    var isOnB = false
+    var isOnC = false
+    var isOnD = false
+    var isOnE = false
     //
     var currentQuestionIndex = 0
     //
@@ -73,7 +82,28 @@ enum DuneCharacter {
     //
     var currentQuestion: Question = QuestionList().questionList[0]
     //
-    func updateSelectedAnswer(question: Question, answers: Answer) {
-        selectedAnswers[question.id] = [answers]
+    var currentAnswers: [Answer] = []
+    //
+    func updateSelectedAnswer(question: Question, answers: [Answer]) {
+        selectedAnswers[question.id] = answers
+    }
+    //
+    func updateMultipleAnswers(_ boolList: [Bool], currentQuestion: Question) {
+        self.currentAnswers = []
+        for (index, bool) in boolList.enumerated() {
+            if bool == true {
+                currentAnswers.append(currentQuestion.answers[index])
+            }
+        }
+    }
+    //
+    func getBoolList() -> [Bool] {
+        [
+            self.isOnA,
+            self.isOnB,
+            self.isOnC,
+            self.isOnD,
+            self.isOnE,
+        ]
     }
 }

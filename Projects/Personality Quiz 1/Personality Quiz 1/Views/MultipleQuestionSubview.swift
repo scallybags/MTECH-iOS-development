@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MultipleQuestionSubview: View {
     @Environment(QuizManager.self) var quizManager
-    @State private var vm = MultipleQuestionViewModel()
+//    @State private var vm = MultipleQuestionViewModel()
         
     var body: some View {
+        @Bindable var quizManager = quizManager
         ZStack {
             Rectangle()
                 .foregroundStyle(Gradient(colors: [.skyBlue , .tan]))
@@ -21,25 +22,35 @@ struct MultipleQuestionSubview: View {
                 Text("\(quizManager.currentQuestion.text)")
                     .font(.custom("Optima", size: 22))
                 //
-                Toggle(quizManager.currentQuestion.answers[0].text, isOn: $vm.isOnA)
-                    .onChange(of: vm.isOnA) {
-                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[0])
+                Toggle(quizManager.currentQuestion.answers[0].text, isOn: $quizManager.isOnA)
+                    .onChange(of: quizManager.isOnA) {
+                        print(quizManager.getBoolList())
+                        quizManager.updateMultipleAnswers(quizManager.getBoolList(), currentQuestion: quizManager.currentQuestion)
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                     }
-                Toggle(quizManager.currentQuestion.answers[1].text, isOn: $vm.isOnB)
-                    .onChange(of: vm.isOnB) {
-                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[1])
+                Toggle(quizManager.currentQuestion.answers[1].text, isOn: $quizManager.isOnB)
+                    .onChange(of: quizManager.isOnB) {
+                        print(quizManager.getBoolList())
+                        quizManager.updateMultipleAnswers(quizManager.getBoolList(), currentQuestion: quizManager.currentQuestion)
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                     }
-                Toggle(quizManager.currentQuestion.answers[2].text, isOn: $vm.isOnC)
-                    .onChange(of: vm.isOnC) {
-                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[2])
+                Toggle(quizManager.currentQuestion.answers[2].text, isOn: $quizManager.isOnC)
+                    .onChange(of: quizManager.isOnC) {
+                        print(quizManager.getBoolList())
+                        quizManager.updateMultipleAnswers(quizManager.getBoolList(), currentQuestion: quizManager.currentQuestion)
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                     }
-                Toggle(quizManager.currentQuestion.answers[3].text, isOn: $vm.isOnD)
-                    .onChange(of: vm.isOnD) {
-                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[3])
+                Toggle(quizManager.currentQuestion.answers[3].text, isOn: $quizManager.isOnD)
+                    .onChange(of: quizManager.isOnD) {
+                        print(quizManager.getBoolList())
+                        quizManager.updateMultipleAnswers(quizManager.getBoolList(), currentQuestion: quizManager.currentQuestion)
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                     }
-                Toggle(quizManager.currentQuestion.answers[4].text, isOn: $vm.isOnE)
-                    .onChange(of: vm.isOnE) {
-                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentQuestion.answers[4])
+                Toggle(quizManager.currentQuestion.answers[4].text, isOn: $quizManager.isOnE)
+                    .onChange(of: quizManager.isOnE) {
+                        print(quizManager.getBoolList())
+                        quizManager.updateMultipleAnswers(quizManager.getBoolList(), currentQuestion: quizManager.currentQuestion)
+                        quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                     }
             }
             .padding([.leading, .trailing], 20)

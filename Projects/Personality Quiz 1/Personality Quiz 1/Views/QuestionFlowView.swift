@@ -15,8 +15,16 @@ struct QuestionFlowView: View {
             switch self.quizManager.currentQuestion.type {
             case .single:
                 SingleQuestionSubview()
+                    .onAppear {
+                        print("sqsv")
+                        quizManager.currentAnswers = [quizManager.currentQuestion.answers[0]]
+                    }
             case .multiple:
                 MultipleQuestionSubview()
+                    .onAppear {
+                        print("mqsv")
+                        quizManager.currentAnswers = []
+                    }
             case .ranged:
                 RangedQuestionSubview()
             }
@@ -27,12 +35,16 @@ struct QuestionFlowView: View {
                 NavigationLink {
                     QuestionFlowView()
                         .onAppear {
-                            quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.questionList[quizManager.currentQuestionIndex].answers[0])
+                            print("qfv")
+                            quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
                             if quizManager.currentQuestionIndex < (quizManager.questionList.count - 1) {
                                 quizManager.currentQuestionIndex += 1
+                                quizManager.currentQuestion = quizManager.questionList[quizManager.currentQuestionIndex]
                             }
                             print("current question: \(quizManager.currentQuestionIndex)")
-                            print("selected answers: \(quizManager.selectedAnswers)")
+                            for (question, answers) in quizManager.selectedAnswers {
+                                print("\(question): \(answers)")
+                            }
                         }
                 } label: {
                     Text("Next")
