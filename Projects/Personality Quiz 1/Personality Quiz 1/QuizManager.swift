@@ -13,8 +13,6 @@ struct Question: Hashable {
     var answers: [Answer]
 }
 
-
-
 struct QuestionList {
     let questionList: [Question] = [
         Question(
@@ -49,12 +47,23 @@ struct QuestionList {
                 Answer(text: "4", type: .paul),
                 Answer(text: "5", type: .raban),
             ]
+        ),
+        Question(
+            text: "results",
+            type: .result,
+            answers: [
+                Answer(text: "Paul", type: .paul),
+                Answer(text: "Chani", type: .chani),
+                Answer(text: "Lady Jessica", type: .ladyJess),
+                Answer(text: "Raban", type: .raban),
+                Answer(text: "Stilgar", type: .stilgar),
+            ]
         )
     ]
 }
 
 enum ResponseType {
-    case single, multiple, ranged
+    case single, multiple, ranged, result
 }
 
 struct Answer: Hashable {
@@ -68,6 +77,8 @@ enum DuneCharacter {
 
 @Observable
 class QuizManager {
+    var selectedCharacter: DuneCharacter = .paul
+    //
     let questionList = QuestionList().questionList
     //
     var isOnA = false
@@ -105,5 +116,24 @@ class QuizManager {
             self.isOnD,
             self.isOnE,
         ]
+    }
+    //
+    func getSelectedCharacter(_ dictionary: [UUID: [Answer]]) -> DuneCharacter? {
+        var resultCharacter: DuneCharacter
+        var allAnswers: [Answer] = []
+        var charactersCount: [DuneCharacter:Int] = [:]
+        
+        for answerList in dictionary {
+            for answer in answerList.value {
+                allAnswers.append(answer)
+            }
+        }
+        for answer in allAnswers {
+            charactersCount[answer.type, default: 0] += 1
+        }
+        
+        guard let highest = charactersCount.max(by: {$0.value < $1.value})?.key else { return nil }
+        resultCharacter = highest
+        return resultCharacter
     }
 }

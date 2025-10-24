@@ -9,6 +9,7 @@ import SwiftUI
 
 struct QuestionFlowView: View {
     @Environment(QuizManager.self) var quizManager
+    @State var isComplete = false
     
     var body: some View {
         VStack {
@@ -27,6 +28,15 @@ struct QuestionFlowView: View {
                     }
             case .ranged:
                 RangedQuestionSubview()
+                    .onAppear {
+                        print("rqsv")
+                        quizManager.currentAnswers = [quizManager.currentQuestion.answers[4]]
+                    }
+            case .result:
+                ResultsView()
+                    .onAppear {
+                        print("rv")
+                    }
             }
         }
         .toolbar {
@@ -43,7 +53,11 @@ struct QuestionFlowView: View {
                             }
                             print("current question: \(quizManager.currentQuestionIndex)")
                             for (question, answers) in quizManager.selectedAnswers {
-                                print("\(question): \(answers)")
+                                print("\(question):")
+                                for answer in answers {
+                                    print(answer)
+                                }
+                                print("--")
                             }
                         }
                 } label: {
@@ -54,7 +68,36 @@ struct QuestionFlowView: View {
             }
             .sharedBackgroundVisibility(.hidden)
             //
+            // BACK BUTTON
+            ToolbarItem(placement: .topBarLeading) {
+                NavigationLink {
+                    QuestionFlowView()
+                        .onAppear {
+                            print("qfv")
+                            quizManager.updateSelectedAnswer(question: quizManager.currentQuestion, answers: quizManager.currentAnswers)
+                            if quizManager.currentQuestionIndex != 0 {
+                                quizManager.currentQuestionIndex -= 1
+                                quizManager.currentQuestion = quizManager.questionList[quizManager.currentQuestionIndex]
+                            }
+                            print("current question: \(quizManager.currentQuestionIndex)")
+                            for (question, answers) in quizManager.selectedAnswers {
+                                print("\(question):")
+                                for answer in answers {
+                                    print(answer)
+                                }
+                                print("--")
+                            }
+                        }
+                } label: {
+                    Text("Back")
+                        .padding()
+                        .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
+                }
+            }
+            .sharedBackgroundVisibility(.hidden)
+            //
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

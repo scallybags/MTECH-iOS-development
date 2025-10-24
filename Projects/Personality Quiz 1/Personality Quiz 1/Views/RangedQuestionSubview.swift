@@ -35,6 +35,10 @@ struct RangedQuestionSubview: View {
                         Text("5")
                     } onEditingChanged: { editing in
                         isEditing = editing
+                        quizManager.currentAnswers = [quizManager.currentQuestion.answers[Int(sliderValue) - 1]]
+                    }
+                    .onChange(of: sliderValue) {
+                        
                     }
                     .tint(.lightRed)
                     .padding()

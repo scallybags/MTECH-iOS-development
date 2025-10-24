@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ResultsView: View {
+    @Environment(QuizManager.self) var quizManager
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -15,25 +17,14 @@ struct ResultsView: View {
                 .ignoresSafeArea()
             //
             VStack {
-                Text("Results")
+                
+                Text("You are:\()")
                     .font(.custom("Optima", size: 22)).underline()
+                //
+                Text("<DuneCharacter>")
             }
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    Text("Nexted")
-                } label: {
-                    Text("Next")
-                        .padding()
-                        .glassEffect(.clear.tint(.lightRed.opacity(0.3)))
-                }
-            }
-            .sharedBackgroundVisibility(.hidden)
+            //
         }
     }
 }
 
-#Preview {
-    ResultsView()
-}
