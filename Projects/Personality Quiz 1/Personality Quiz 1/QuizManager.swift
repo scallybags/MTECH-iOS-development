@@ -72,12 +72,34 @@ struct Answer: Hashable {
 }
 
 enum DuneCharacter {
-    case paul, chani, ladyJess, raban, stilgar
+    case paul,
+         chani,
+         ladyJess,
+         raban,
+         stilgar
+}
+
+struct ResultsCharacters {
+    var characters: [DuneCharacter: String] = [
+        .paul: "Paul",
+        .chani: "Chani",
+        .ladyJess: "Paul",
+        .raban: "Raban",
+        .stilgar: "Stigar",
+    ]
 }
 
 @Observable
 class QuizManager {
     var selectedCharacter: DuneCharacter = .paul
+    //
+    var relsultsCharacters: [DuneCharacter: String] = [
+        .paul: "Paul",
+        .chani: "Chani",
+        .ladyJess: "Paul",
+        .raban: "Raban",
+        .stilgar: "Stigar",
+    ]
     //
     let questionList = QuestionList().questionList
     //
@@ -118,8 +140,7 @@ class QuizManager {
         ]
     }
     //
-    func getSelectedCharacter(_ dictionary: [UUID: [Answer]]) -> DuneCharacter? {
-        var resultCharacter: DuneCharacter
+    func setResultCharacter(_ dictionary: [UUID: [Answer]]) {
         var allAnswers: [Answer] = []
         var charactersCount: [DuneCharacter:Int] = [:]
         
@@ -128,12 +149,12 @@ class QuizManager {
                 allAnswers.append(answer)
             }
         }
+        
         for answer in allAnswers {
             charactersCount[answer.type, default: 0] += 1
         }
         
-        guard let highest = charactersCount.max(by: {$0.value < $1.value})?.key else { return nil }
-        resultCharacter = highest
-        return resultCharacter
+        guard let resultCharacter = charactersCount.max(by: {$0.value < $1.value})?.key else { return }
+        selectedCharacter = resultCharacter
     }
 }

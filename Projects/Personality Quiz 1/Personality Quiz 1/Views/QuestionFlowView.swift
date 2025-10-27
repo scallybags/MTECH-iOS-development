@@ -36,6 +36,7 @@ struct QuestionFlowView: View {
                 ResultsView()
                     .onAppear {
                         print("rv")
+                        quizManager.setResultCharacter(quizManager.selectedAnswers)
                     }
             }
         }

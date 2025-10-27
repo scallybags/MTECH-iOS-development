@@ -17,11 +17,57 @@ struct ResultsView: View {
                 .ignoresSafeArea()
             //
             VStack {
-                
-                Text("You are:\()")
-                    .font(.custom("Optima", size: 22)).underline()
+                Text("You are:")
+                    .font(.custom("Optima", size: 22))
                 //
-                Text("<DuneCharacter>")
+                switch quizManager.selectedCharacter {
+                case .paul:
+                    VStack {
+                        Text("Paul")
+                            .font(.custom("Optima", size: 32)).bold()
+                        Image(.paul2)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.horizontal, 20)
+                    }
+                case .chani:
+                    VStack {
+                        Text("Chani")
+                            .font(.custom("Optima", size: 32)).bold()
+                        Image(.chani2)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.horizontal, 20)
+                    }
+                case .ladyJess:
+                    VStack {
+                        Text("Lady Jessica")
+                            .font(.custom("Optima", size: 32)).bold()
+                        Image(.ladyJess2)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.horizontal, 20)
+                    }
+                case .raban:
+                    VStack {
+                        Text("Raban")
+                            .font(.custom("Optima", size: 32)).bold()
+                        Image(.raban2)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.horizontal, 20)
+                    }
+                case .stilgar:
+                    VStack {
+                        Text("Stilgar")
+                            .font(.custom("Optima", size: 32)).bold()
+                        Image(.stilgar2)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.horizontal, 20)
+                    }
+                }
+                //
             }
             //
         }
