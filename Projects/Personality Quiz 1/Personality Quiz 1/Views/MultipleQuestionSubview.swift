@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MultipleQuestionSubview: View {
+    
     @Environment(QuizManager.self) var quizManager
-//    @State private var vm = MultipleQuestionViewModel()
         
     var body: some View {
         @Bindable var quizManager = quizManager
